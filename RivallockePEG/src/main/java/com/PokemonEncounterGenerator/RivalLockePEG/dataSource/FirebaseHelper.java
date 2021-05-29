@@ -18,17 +18,26 @@ public class FirebaseHelper {
      * @param version   Given version query parameter
      */
     public static List<Pokemon> getAllPokemonForLocation(String location, String version) throws ExecutionException, InterruptedException {
-        Firestore db = FirestoreClient.getFirestore();
+        System.out.println("Accessing Firebase...");
         List<Pokemon> tempList = new ArrayList<>();
 
-        CollectionReference locations = db.collection("Locations");
-        Query query = locations.whereEqualTo("Locations", location).whereEqualTo("Version", version);
-        ApiFuture<QuerySnapshot> querySnapShot = query.get();
+        try {
+            Firestore db = FirestoreClient.getFirestore();
+            System.out.println(db);
 
-        for(DocumentSnapshot document : querySnapShot.get().getDocuments()) {
-            String pokemonName = document.get("Pokemon").toString();
-            int rate = Integer.parseInt(document.get("Appearance rate").toString());
-            tempList.add(new Pokemon(pokemonName, rate));
+            CollectionReference locations = db.collection("Locations");
+            Query query = locations.whereEqualTo("Locations", location).whereEqualTo("Version", version);
+            ApiFuture<QuerySnapshot> querySnapShot = query.get();
+
+            for(DocumentSnapshot document : querySnapShot.get().getDocuments()) {
+                String pokemonName = document.get("Pokemon").toString();
+                int rate = Integer.parseInt(document.get("Appearance rate").toString());
+                tempList.add(new Pokemon(pokemonName, rate));
+            }
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         return tempList;

@@ -8,6 +8,17 @@ group = 'com.PokemonEncounterGenerator'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+sourceSets {
+	main {
+		java {
+			srcDirs= ["src/main/java"]
+		}
+		resources {
+			srcDirs= ["src/main/resources"]
+		}
+	}
+}
+
 repositories {
 	mavenCentral()
 }
