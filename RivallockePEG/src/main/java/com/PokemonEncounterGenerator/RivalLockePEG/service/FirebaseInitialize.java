@@ -14,19 +14,18 @@ import java.io.IOException;
 @Service
 public class FirebaseInitialize {
 
-    //public static Firestore db;
-
     @PostConstruct
     public void intitialize() throws IOException {
+        System.out.println("Initializing firebase...");
         try {
-            FileInputStream serviceAccount = new FileInputStream("/Users/jeff/Git/PokemonEncounterGenerator/RivalLockePEG/src/main/resources/serviceAccount.json");
+            FileInputStream serviceAccount = new FileInputStream("./resources/serviceAccount.json");
 
-            FirebaseOptions options = new FirebaseOptions.Builder()
+            FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .build();
 
+            System.out.println(options);
             FirebaseApp.initializeApp(options);
-            //db = FirestoreClient.getFirestore();
         } catch (Exception e) {
             e.printStackTrace();
         }
